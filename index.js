@@ -6,7 +6,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/will', function (req, res) {
-    res.send('{ "response": "Blujay Trainer HariKrishna Cherukuu" }');
+    res.send('{ "response": "Blujay Trainer HariKrishna Cheruku" }');
 });
 app.get('/ready', function (req, res) {
     res.send('{ "response": " Great!, Get Knowledge from Blujaytech1!" }');
