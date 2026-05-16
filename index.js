@@ -9,7 +9,7 @@ app.get('/will', function (req, res) {
     res.send('{ "response": "Blujay Trainer HariKrishna Cherukuu" }');
 });
 app.get('/ready', function (req, res) {
-    res.send('{ "response": " Great!, Get Knowledge from Blujaytech!" }');
+    res.send('{ "response": " Great!, Get Knowledge from Blujaytech1!" }');
 });
 app.listen(process.env.PORT || 3000);
 module.exports = app;
