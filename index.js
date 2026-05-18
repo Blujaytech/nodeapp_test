@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 app.get('/', function (req, res) {
-    res.send('{ "response": "BlujayTech is No.1 AWSDevops Traning Center In hyderabad" }');
+    res.send('{ "response": "BlujayTech is No.1 AWSDevops Traning Center In hyderabadd" }');
 });
 
 app.get('/will', function (req, res) {
