@@ -1,17 +1,27 @@
-var express = require('express');
-var app = express();
+const express = require('express');
 
-app.get('/', function (req, res) {
-    res.send('{ "response": "BlujayTech is No.1 AWSDevops Traning Center In Hyderabad, <a href=" https://www.youtube.com/@blujaytech " target="_blank">
-            
-            </a>" }');
+const app = express();
+
+app.get('/', (req, res) => {
+    res.send(`
+        <h1>BlujayTech</h1>
+
+        <h2>No.1 AWS DevOps Training Center In Hyderabad</h2>
+
+        <a href="https://www.youtube.com/@blujaytech" target="_blank">
+            Visit YouTube Channel
+        </a>
+    `);
 });
 
-app.get('/will', function (req, res) {
-    res.send('{ "response": "Blujay Trainer HariKrishna Cheruku" }');
+app.get('/will', (req, res) => {
+    res.send('Blujay Trainer HariKrishna Cheruku');
 });
-app.get('/ready', function (req, res) {
-    res.send('{ "response": " Great!, https://www.youtube.com/@blujaytech!" }');
+
+app.get('/ready', (req, res) => {
+    res.send('Great!');
 });
-app.listen(process.env.PORT || 3000);
-module.exports = app;
+
+app.listen(3000, () => {
+    console.log('Server running on port 3000');
+});
