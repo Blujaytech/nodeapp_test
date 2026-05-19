@@ -1,5 +1,5 @@
 Complete DevOps Setup Documentation
-AWS CLI + Docker + Jenkins + Kubernetes + EKS Configuration
+AWS CLI + Docker + Jenkins + Kubernetes (EKS Configuration)
 
 This document explains:
 
