@@ -1,49 +1,56 @@
 pipeline {
+    agent any
 
-  environment {
-    dockerimagename = "thetips4you/nodeapp"
-    dockerImage = ""
-  }
-
-  agent any
-
-  stages {
-
-    stage('Checkout Source') {
-      steps {
-        git 'https://github.com/shazforiot/nodeapp_test.git'
-      }
+    environment {
+        IMAGE_NAME = "blujaytech/nodeapp"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
     }
 
-    stage('Build image') {
-      steps{
-        script {
-          dockerImage = docker.build dockerimagename
+    stages {
+
+        stage('Checkout Source') {
+            steps {
+                git 'https://github.com/Blujaytech/nodeapp_test.git'
+            }
         }
-      }
-    }
 
-    stage('Pushing Image') {
-      environment {
-               registryCredential = 'dockerhublogin'
-           }
-      steps{
-        script {
-          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
-            dockerImage.push("latest")
-          }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                }
+            }
         }
-      }
-    }
 
-    stage('Deploying App to Kubernetes') {
-      steps {
-        script {
-          kubernetesDeploy(configs: "deploymentservice.yml", kubeconfigId: "kubernetes")
+        stage('Push Docker Image') {
+            steps {
+                script {
+
+                    docker.withRegistry('', 'dockerhublogin') {
+
+                        docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
+
+                        docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push("latest")
+                    }
+                }
+            }
         }
-      }
+
+        stage('Deploy to EKS') {
+            steps {
+
+                sh '''
+                cd /var/lib/jenkins/workspace/CICD-Project
+
+                kubectl apply -f deploymentservice.yaml
+
+                kubectl rollout restart deployment nodeapp-deployment
+
+                kubectl get pods
+
+                kubectl get svc
+                '''
+            }
+        }
     }
-
-  }
-
 }
