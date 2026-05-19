@@ -3,7 +3,7 @@ var app = express();
 
 app.get('/', function (req, res) {
     res.send('{ "response": "BlujayTech is No.1 AWSDevops Traning Center In Hyderabad, <a href="https://www.youtube.com/@blujaytech" target="_blank">
-                https://www.youtube.com/@blujaytech
+            
             </a>" }');
 });
 
