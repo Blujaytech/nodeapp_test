@@ -6,7 +6,7 @@ app.get('/', (req, res) => {
     res.send(`
         <h1>BlujayTech</h1>
 
-        <h2>No.1 AWSDevOps Training Center In Hyderabad</h2>
+        <h2>No.1 AWSDevOps Training Center In Hyderabad </h2>
 
         <a href="https://www.youtube.com/@blujaytech" target="_blank">
             Visit YouTube Channel
