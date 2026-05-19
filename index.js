@@ -6,7 +6,7 @@ app.get('/', (req, res) => {
     res.send(`
         <h1>BlujayTech</h1>
 
-        <h2>No.1 AWS DevOps Training Center In Hyderabad</h2>
+        <h2>No.1 AWSDevOps Training Center In Hyderabad</h2>
 
         <a href="https://www.youtube.com/@blujaytech" target="_blank">
             Visit YouTube Channel
@@ -19,7 +19,7 @@ app.get('/will', (req, res) => {
 });
 
 app.get('/ready', (req, res) => {
-    res.send('Great!');
+    res.send('Get AwsDevOps Knowledge From BlujayTech!');
 });
 
 app.listen(3000, () => {
