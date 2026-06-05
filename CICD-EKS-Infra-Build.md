@@ -1,125 +1,7 @@
-Complete DevOps Setup Documentation
-AWS CLI + Docker + Jenkins + Kubernetes (EKS Configuration)
-
-This document explains:
-
-What each command does
-Why the command is required
-What happens internally after execution
-1. AWS CLI Installation
-Purpose
-
-AWS CLI (Command Line Interface) is a tool used to communicate with AWS services directly from the Linux terminal.
-
-Using AWS CLI, you can:
-
-Create EKS clusters
-Manage EC2 instances
-Access S3 buckets
-Configure IAM permissions
-Automate AWS infrastructure
-Install unzip Package
-sudo yum install unzip -y
-Command Explanation
-Part	Description
-sudo	Executes command with root/admin privileges
-yum	Package manager used in RHEL/CentOS/Amazon Linux
-install	Installs software package
-unzip	Utility used to extract .zip files
--y	Automatically confirms installation
-Why This Command is Required
-
-AWS CLI is downloaded as a .zip file.
-Without unzip, Linux cannot extract the installation package.
-
-Download AWS CLI Package
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-Command Explanation
-Part	Description
-curl	Tool used to download files from internet
-https://...	AWS CLI download URL
--o	Saves output file with specified name
-awscliv2.zip	Downloaded file name
-Why This Command is Required
-
-Downloads the latest AWS CLI installer package from AWS official website.
-
-Extract AWS CLI
-unzip awscliv2.zip
-Command Explanation
-Part	Description
-unzip	Extracts compressed zip file
-awscliv2.zip	AWS CLI package
-Why This Command is Required
-
-Linux cannot install directly from zip package.
-This command extracts installation files.
-
-Install AWS CLI
-sudo ./aws/install
-Command Explanation
-Part	Description
-./	Executes file from current directory
-aws/install	AWS installation script
-sudo	Gives administrator permissions
-Why This Command is Required
-
-Installs AWS CLI binaries into the Linux system.
-
-Verify AWS CLI Installation
-aws --version
-Command Explanation
-Part	Description
-aws	AWS CLI command
---version	Displays installed version
-Why This Command is Required
-
-Checks whether AWS CLI installed successfully.
-
-Configure AWS CLI
-aws configure
-Command Explanation
-
-This command configures AWS authentication.
-
-You must provide:
-
-AWS Access Key ID
-AWS Secret Access Key
-AWS Region
-Output Format
-
-Example:
-
-Region: us-east-1
-Output format: json
-Why This Command is Required
-
-Without configuration:
-
-AWS CLI cannot access AWS services
-EKS cluster creation will fail
-Authentication errors will occur
-2. Docker Installation
-Purpose
-
-Docker is a containerization platform used to:
-
-Package applications
-Run containers
-Build CI/CD deployments
-Deploy microservices
-Create Docker Installation Script
-vi install-docker.sh
-Command Explanation
-Part	Description
-vi	Linux text editor
-install-docker.sh	Shell script file
-Why This Command is Required
-
 Creates reusable Docker installation automation script.
-
 Docker Installation Script
+
+```
 #!/bin/bash
 
 R="\e[31m"
@@ -138,85 +20,8 @@ systemctl enable docker
 usermod -aG docker ec2-user
 
 echo -e "$R Logout and Login again $N"
-Script Explanation
-Shebang Line
-#!/bin/bash
-Purpose
+```
 
-Tells Linux to execute script using Bash shell.
-
-Install yum Utilities
-yum install -y yum-utils
-Purpose
-
-Installs package management utilities required to add repositories.
-
-Add Docker Repository
-yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
-Purpose
-
-Adds official Docker repository into Linux package manager.
-
-Without this:
-
-Docker packages cannot be downloaded.
-Install Docker Packages
-yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-Package Explanation
-Package	Purpose
-docker-ce	Docker Engine
-docker-ce-cli	Docker CLI commands
-containerd.io	Container runtime
-docker-buildx-plugin	Advanced image builds
-docker-compose-plugin	Multi-container deployments
-Start Docker Service
-systemctl start docker
-Purpose
-
-Starts Docker service immediately.
-
-Enable Docker During Boot
-systemctl enable docker
-Purpose
-
-Automatically starts Docker after reboot.
-
-Add User to Docker Group
-usermod -aG docker ec2-user
-Command Explanation
-Part	Description
-usermod	Modifies user account
--aG	Appends user into group
-docker	Docker user group
-ec2-user	Linux username
-Why This Command is Required
-
-Allows user to execute Docker commands without sudo.
-
-Execute Docker Script
-sh install-docker.sh
-Purpose
-
-Runs all Docker installation commands automatically.
-
-Docker Service Commands
-Start Docker
-sudo systemctl start docker
-
-Starts Docker service.
-
-Enable Docker
-sudo systemctl enable docker
-
-Starts Docker automatically during reboot.
-
-Restart Docker
-sudo systemctl restart docker
-
-Reloads Docker service.
-
-Add Jenkins to Docker Group
-sudo usermod -aG docker jenkins
 Why This Command is Required
 
 Allows Jenkins pipelines to:
@@ -225,26 +30,10 @@ Build Docker images
 Run containers
 Push images to DockerHub/ECR
 Fix Docker Socket Permission
+```
 sudo chmod 666 /var/run/docker.sock
-Command Explanation
-Part	Description
-chmod	Changes permissions
-666	Read/write access for all users
-docker.sock	Docker communication socket
-Why This Command is Required
+```
 
-Fixes permission denied errors while Jenkins accesses Docker.
-
-Verify Docker
-docker ps
-Purpose
-
-Displays running containers.
-
-If Docker works properly:
-
-Container list appears
-No permission errors occur
 3. Jenkins Installation
 Purpose
 
@@ -255,7 +44,11 @@ Automated testing
 Kubernetes deployments
 Docker builds
 Add Jenkins Repository
+
+```
 sudo curl -o /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/rpm-stable/jenkins.repo
+```
+
 Purpose
 
 Adds official Jenkins repository.
@@ -264,13 +57,19 @@ Without repository:
 
 Jenkins package cannot be installed.
 Import Jenkins GPG Key
+
+```
 sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+```
+
 Purpose
 
 Imports Jenkins security key for package verification.
-
 Install Java
+
+```
 sudo yum install fontconfig java-21-openjdk -y
+```
 Why Java is Required
 
 Jenkins is built using Java.
@@ -279,31 +78,50 @@ Without Java:
 
 Jenkins service will not start.
 Reload Linux Services
+
+```
 sudo systemctl daemon-reload
+```
 Purpose
 
 Reloads Linux service manager configurations.
 
 Install Jenkins
+
+```
 sudo dnf install jenkins -y
+```
+
 Purpose
 
 Downloads and installs Jenkins package.
 
 Enable Jenkins
+
+```
 sudo systemctl enable jenkins
+```
+
 Purpose
 
 Automatically starts Jenkins after reboot.
 
 Start Jenkins
+
+```
 sudo systemctl start jenkins
+```
+
 Purpose
-
+```
 Starts Jenkins service.
-
+```
 Check Jenkins Status
+
+```
 sudo systemctl status jenkins
+```
+
 Purpose
 
 Checks whether Jenkins is:
@@ -312,7 +130,10 @@ Running
 Failed
 Stopped
 Get Jenkins Initial Password
+```
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
 Purpose
 
 Retrieves first-time admin login password.
@@ -327,28 +148,41 @@ Manage pods
 Manage services
 Communicate with EKS cluster
 Download kubectl
+```
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+```
+
 Purpose
 
 Downloads latest kubectl binary.
 
 Give Execute Permission
+
+```
 chmod +x kubectl
+```
 Purpose
 
 Makes kubectl executable.
 
 Move kubectl to System Path
+
+```
 sudo mv kubectl /usr/local/bin/
+```
+
 Purpose
 
 Allows kubectl to run globally from anywhere.
 
 Verify kubectl
+```
 kubectl version --client
+```
 Purpose
 
 Checks kubectl installation version.
+
 
 5. eksctl Installation
 Purpose
@@ -359,30 +193,45 @@ Create EKS clusters
 Delete EKS clusters
 Manage node groups
 Download eksctl
+
+```
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+```
+
 Purpose
 
 Downloads and extracts eksctl binary.
 
 Move eksctl
+
+```
 sudo mv /tmp/eksctl /usr/local/bin
+```
+
 Purpose
 
 Moves eksctl into executable path.
 
 Verify eksctl
+
+```
 eksctl version
+```
 Purpose
 
 Displays eksctl version.
 
 6. Create EKS Cluster
+
+```
 eksctl create cluster \
 --name blujay-cluster \
 --region us-east-1 \
 --nodegroup-name demo-nodes \
 --node-type t3.small \
 --nodes 2
+```
+
 Command Explanation
 Option	Description
 --name	Kubernetes cluster name
