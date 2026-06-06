@@ -1,3 +1,10 @@
+# Project Overview
+Designed and implemented an end-to-end CI/CD pipeline for a containerized Node.js application using GitHub, Jenkins, Docker, Amazon ECR, and Amazon EKS. Automated build, test, image creation, vulnerability scanning, and Kubernetes deployment processes, reducing deployment time by 80% while ensuring high availability and scalability on AWS.
+
+# TechStack
+1. Aws EC2 - 2 Servers (EKS/Jenkins&Docker)
+2. Git,Jenkins,Docker,Aws Eks.
+
 Creates reusable Docker installation automation script. Docker Installation Script
 ```
 #!/bin/bash
