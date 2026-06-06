@@ -232,130 +232,111 @@ eksctl create cluster \
 --nodes 2
 ```
 
-Command Explanation
-Option	Description
---name	Kubernetes cluster name
---region	AWS region
---nodegroup-name	Worker node group
---node-type	EC2 instance type
---nodes	Number of EC2 worker nodes
-What Happens Internally
-
-eksctl automatically creates:
-
-VPC
-Subnets
-Security Groups
-EC2 Nodes
-EKS Control Plane
-IAM Roles
-Verify Cluster Nodes
-kubectl get nodes
-Purpose
-
-Displays Kubernetes worker nodes.
-
 7. Configure Jenkins for Kubernetes Access
 Create kube Directory
-sudo mkdir -p /var/lib/jenkins/.kube
-Purpose
 
-Creates Kubernetes configuration directory for Jenkins.
+```
+sudo mkdir -p /var/lib/jenkins/.kube
+```
 
 Copy kubeconfig
+
+```
 sudo cp /root/.kube/config /var/lib/jenkins/.kube/config
+```
 Purpose
 
 Copies Kubernetes authentication file.
 
 Change Ownership
+```
 sudo chown -R jenkins:jenkins /var/lib/jenkins/.kube
+```
 Purpose
 
 Allows Jenkins user to access Kubernetes config.
-
-Update kubeconfig
-aws eks update-kubeconfig \
---region us-east-1 \
---name blujay-cluster
-Purpose
 
 Connects kubectl with EKS cluster.
 
 8. Configure AWS Credentials for Jenkins
 Create AWS Directory
+
+```
 sudo mkdir -p /var/lib/jenkins/.aws
+```
 Purpose
 
 Creates AWS credential directory.
 
 Copy AWS Credentials
+
+```
 sudo cp -r /root/.aws/* /var/lib/jenkins/.aws/
+
+```
 Purpose
 
 Copies AWS authentication credentials.
 
 Change Ownership
+
+```
 sudo chown -R jenkins:jenkins /var/lib/jenkins/.aws
+
+```
 Purpose
 
 Allows Jenkins to access AWS credentials.
 
 Switch to Jenkins User
+
+```
 sudo su - jenkins
+
+```
 Purpose
 
 Logs into Jenkins user environment.
 
 Verify AWS Authentication
+```
 aws sts get-caller-identity
+
+```
 Purpose
 
 Checks AWS identity and permissions.
 
 Verify Kubernetes Access
+```
 kubectl get nodes
 kubectl get pods
 kubectl get svc
-Purpose
-Command	Description
-get nodes	Displays worker nodes
-get pods	Displays running containers
-get svc	Displays Kubernetes services
-Restart Jenkins
-sudo systemctl restart jenkins
+```
 Purpose
 
 Reloads Jenkins configurations.
 
 Check Jenkins Status
+```
 sudo systemctl status jenkins
+
+```
+
 Purpose
 
 Verifies Jenkins service health.
 
 Final Verification Commands
+
 Docker Verification
+
+```
 docker ps
 Kubernetes Verification
 kubectl get nodes
 kubectl get pods
-AWS Verification
-aws sts get-caller-identity
-Tool Version Verification
-eksctl version
-kubectl version --client
-Final Architecture Flow
-Developer
-   ↓
-GitHub Repository
-   ↓
-Jenkins Pipeline
-   ↓
-Docker Build
-   ↓
-DockerHub / ECR
-   ↓
-kubectl
-   ↓
-AWS EKS Cluster
+kubectl get svc
+```
+```
+
